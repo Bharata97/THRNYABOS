@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADAKAH THR BOS </title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #065f46;
+            --secondary: #fbbf24;
+            --accent: #10b981;
+            --bg: #f0fdf4;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            background-image: radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+                              radial-gradient(circle at 80% 80%, rgba(251, 191, 36, 0.1) 0%, transparent 50%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        #welcome-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--primary);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--white);
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        h1 { color: var(--primary); font-size: 24px; font-weight: 700; margin-bottom: 5px; }
+        p.subtitle { font-size: 13px; color: #666; margin-bottom: 20px; }
+
+        .timer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .time-card {
+            background: var(--primary);
+            color: white;
+            padding: 10px 5px;
+            border-radius: 12px;
+        }
+
+        .time-card span { display: block; font-size: 20px; font-weight: 700; }
+        .time-card label { font-size: 9px; text-transform: uppercase; opacity: 0.8; }
+
+        .status-badge {
+            display: inline-block;
+            background: #fef3c7;
+            color: #92400e;
+            padding: 6px 15px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border: 1px solid #fde68a;
+        }
+
+        /* Styling Pilihan Rekening */
+        .rekening-selector {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            font-family: 'Poppins';
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .btn-main {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .btn-main:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+        .social-links { display: flex; justify-content: center; gap: 12px; margin-top: 10px; }
+        .social-icon {
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 10px; color: white; text-decoration: none; font-size: 18px;
+            transition: 0.3s;
+        }
+        .wa { background: #25D366; }
+        .ig { background: #E1306C; }
+        .fb { background: #1877F2; }
+        .tg { background: #0088cc; }
+        .social-icon:hover { transform: scale(1.1); }
+
+        #music-control {
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--primary); color: white;
+            width: 45px; height: 45px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+ 
+        <source src="Takbir.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="welcome-overlay">
+        <i class="fas fa-envelope-open-text" style="font-size: 60px; margin-bottom: 20px;"></i>
+        <h2> "Hidup itu indah"<h2>
+        <h3>Seindah saat kamu bisa berbagi</h3>
+        
+        <h4><button onclick="startExperience()" style="margin-top:12px; padding:12px 25px; border-radius:50px; border:none; background:var(--secondary); color:var(--primary); font-weight:bold; cursor:pointer; font-family: 'Poppins';">KLIK DISINI</button></h4>
+    </div>
+
+    <div id="music-control" onclick="toggleMusic()">
+        <i id="music-icon" class="fas fa-volume-mute"></i>
+    </div>
+
+    <div class="container">
+              <h1>Happy Eid Mubarak 1447H 🌙</h1>
+        <h1>ADAKAH THR BOS </h1>
+        <p class="subtitle">Jalan-jalan ke Pasar Senen, Beli buku di sekitaran. Hai, orang-orang keren, Jangan lupa bagi THR-an!</p>
+
+        <div class="timer-grid">
+            <div class="time-card"><span id="days">00</span><label>Hari</label></div>
+            <div class="time-card"><span id="hours">00</span><label>Jam</label></div>
+            <div class="time-card"><span id="mins">00</span><label>Menit</label></div>
+            <div class="time-card"><span id="secs">00</span><label>Detik</label></div>
+        </div>
+
+        <div class="status-badge" id="status">
+            <i class="fas fa-spinner fa-spin"></i> Status: Menunggu Hilal Transfer
+        </div>
+
+        <p style="font-size: 12px; text-align: left; margin-bottom: 5px; font-weight: 600;">Pilih Bank Tujuan:</p>
+        <select id="bankSelect" class="rekening-selector">
+            <option value="801501005201533">BRI - 8015 0100 5201 533</option>
+            <option value="05745568197">BCA - 0574 556 8197</option>
+           <option value="089651167331">DANA - 089651167331</option>
+        </select>
+
+        <button class="btn-main" onclick="salinRekening()">
+            <i class="fas fa-copy"></i> Salin Nomor Rekening
+        </button>
+
+        <p style="font-size: 12px; margin-bottom: 10px; font-weight: 600;">Konfirmasi via Sosial Media:</p>
+        <div class="social-links">
+            <a href="https://wa.me/qr/66T2UNVRW5FIP1" target="_blank" class="social-icon wa"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://t.me/Bharatayudhaa" target="_blank" class="social-icon tg"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://www.instagram.com/bharatayudha77" target="_blank" class="social-icon ig"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com/share/1Gayqc1M3N/" target="_blank" class="social-icon fb"><i class="fab fa-facebook-f"></i></a>
+        </div>
+        
+        <p style="margin-top: 25px; font-size: 10px; color: #999;"></p>
+        <p style="font-size: 20px; margin-bottom: 20px; font-weight: 600;">Selamat Hari Raya Idul Fitri,
+        mohon maaf lahir dan batin,
+        <p style="margin-top: 10px; font-size: 15px; color: #999;"></p>"Taqabbalallahu minna wa minkum"
+        <p style="margin-top: 1px; font-size: 20px; color: #999;"></p>Semoga Allah menerima amal ibadah kita, serta harapan agar hati kembali suci, damai dan penuh berkah</p>
+        <p style="margin-top: 25px; font-size: 15px; color: #999;">Dikelola Oleh Departemen Bharatayudha &copy; 2026</p>
+    </div>
+
+    <script>
+        const music = document.getElementById("bgMusic");
+        const musicIcon = document.getElementById("music-icon");
+        let isPlaying = false;
+
+        function startExperience() {
+            document.getElementById('welcome-overlay').style.display = 'none';
+            playMusic();
+        }
+
+        function playMusic() {
+            music.play().then(() => {
+                isPlaying = true;
+                musicIcon.classList.replace("fa-volume-mute", "fa-volume-up");
+            }).catch(e => console.log("Autoplay blocked"));
+        }
+
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicIcon.classList.replace("fa-volume-up", "fa-volume-mute");
+            } else {
+                music.play();
+                musicIcon.classList.replace("fa-volume-mute", "fa-volume-up");
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Countdown Logic
+        const target = new Date("March 20, 2026 06:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = target - now;
+            if (diff > 0) {
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById("days").innerText = d.toString().padStart(2, '0');
+                document.getElementById("hours").innerText = h.toString().padStart(2, '0');
+                document.getElementById("mins").innerText = m.toString().padStart(2, '0');
+                document.getElementById("secs").innerText = s.toString().padStart(2, '0');
+            } else {
+                document.getElementById("status").innerHTML = "🎉 Selamat Lebaran! Waktunya Bagi-bagi!";
+            }
+        }, 1000);
+
+        function salinRekening() {
+            const select = document.getElementById("bankSelect");
+            const norek = select.value;
+            const bankName = select.options[select.selectedIndex].text.split('-')[0];
+            
+            navigator.clipboard.writeText(norek);
+            alert("Nomor Rekening " + bankName + " berhasil disalin!");
+        }
+    </script>
+</body>
+</html>
